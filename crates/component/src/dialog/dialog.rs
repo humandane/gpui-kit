@@ -882,8 +882,11 @@ impl RenderOnce for Dialog {
                                                         .on_any_mouse_down(|_, _, cx| {
                                                             cx.stop_propagation()
                                                         })
-                                                        .on_scroll_wheel(|_, _, cx| {
-                                                            cx.stop_propagation()
+                                                        .map(|this| {
+                                                            crate::platform_input::on_scroll(
+                                                                this,
+                                                                |_, _, cx| cx.stop_propagation(),
+                                                            )
                                                         }),
                                                 )
                                         })

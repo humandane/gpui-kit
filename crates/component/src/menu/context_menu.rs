@@ -3,6 +3,7 @@ use std::{
     rc::Rc,
 };
 
+use gpui::prelude::FluentBuilder as _;
 use gpui::{
     Anchor, AnyElement, App, Bounds, Context, DismissEvent, Element, ElementId, Entity,
     FocusHandle, Focusable, GlobalElementId, Hitbox, HitboxBehavior, InspectorElementId,
@@ -183,8 +184,8 @@ impl DeferredMenu {
                 div()
                     .w(window.bounds().size.width)
                     .h(window.bounds().size.height)
-                    .on_scroll_wheel(|_, _, cx| {
-                        cx.stop_propagation();
+                    .map(|this| {
+                        crate::platform_input::on_scroll(this, |_, _, cx| cx.stop_propagation())
                     })
                     .child(
                         anchored()
@@ -539,6 +540,7 @@ mod tests {
     use super::*;
     use crate::menu::PopupMenuItem;
     use crate::theme::Theme;
+    use gpui::prelude::FluentBuilder as _;
     use gpui::{
         Context, FocusHandle, IntoElement, KeyBinding, Render, TestAppContext, VisualTestContext,
         actions, point, px,

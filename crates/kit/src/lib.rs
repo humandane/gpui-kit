@@ -44,6 +44,9 @@
 //!
 //! See [`component`] for the same program with the styled component library.
 
+#[cfg(feature = "gpui-fast")]
+pub(crate) use gpui_fast::ScrollWheelEvent as ScrollEvent;
+
 /// Defines unit actions without requiring consumers to depend on GPUI under the
 /// crate name `gpui`.
 ///

@@ -1,10 +1,10 @@
-name: Phase 0 Linux status item
+name: Menu bar development graph Linux
 
 # A branch push works before this temporary workflow reaches a fork's default
 # branch. workflow_dispatch does not; it is available only after that point.
 on:
   push:
-    branches: [codex/native-menu-bar-prototype]
+    branches: [codex/native-menu-bar-prototype, codex/menu-bar-development-graph]
   workflow_dispatch:
 
 permissions:
@@ -27,7 +27,7 @@ jobs:
       matrix:
         include:
           - check: kit-library
-            command: cargo test --locked --no-default-features --lib -p gpui-kit
+            command: cargo test --locked --no-default-features --features test-support --lib -p gpui-kit
           - check: status-example
             command: cargo check --locked -p status_item
     defaults:
@@ -44,6 +44,13 @@ jobs:
           # Match upstream's setup action default, including Linux warnings.
           rustflags: -D warnings
       - uses: rui314/setup-mold@v1
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - name: Verify coherent snapshot pins
+        run: |
+          bun script/check-gpui-pin.ts --self-test
+          bun script/check-gpui-pin.ts
       - name: Install upstream Linux dependencies
         run: script/bootstrap
       - name: Record build identity

@@ -12,6 +12,8 @@ mod icon;
 mod index_path;
 #[cfg(any(feature = "inspector", debug_assertions))]
 mod inspector;
+mod platform_input;
+pub(crate) use platform_input::ScrollEvent;
 mod root;
 mod sizing;
 mod styled;
