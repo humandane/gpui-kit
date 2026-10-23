@@ -1,0 +1,15 @@
+[package]
+name = "status_item"
+description = "A native menu bar item with a GPUI popup and generated audio meters."
+version = "0.8.0"
+publish = false
+edition.workspace = true
+
+[dependencies]
+gpui-kit.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+gpui-fast = ["gpui-kit/gpui-fast"]

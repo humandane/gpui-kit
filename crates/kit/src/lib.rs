@@ -127,6 +127,9 @@ pub const GPUI_FAST: bool = cfg!(feature = "gpui-fast");
 #[cfg(feature = "test-support")]
 pub mod test;
 
+pub mod login_item;
+pub mod status_item;
+
 pub use ::gpui_base as base;
 #[cfg(all(
     not(any(target_os = "ios", target_os = "android")),
