@@ -540,7 +540,6 @@ mod tests {
     use super::*;
     use crate::menu::PopupMenuItem;
     use crate::theme::Theme;
-    use gpui::prelude::FluentBuilder as _;
     use gpui::{
         Context, FocusHandle, IntoElement, KeyBinding, Render, TestAppContext, VisualTestContext,
         actions, point, px,

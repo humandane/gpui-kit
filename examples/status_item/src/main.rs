@@ -519,8 +519,13 @@ fn main() {
             format!("Launch reason: {launch_reason:?}. Login item (read-only): {login_status:?}.")
                 .into();
         gpui_kit::init(cx);
+        #[cfg(not(feature = "gpui-fast"))]
+        let quit_binding = KeyBinding::load("secondary-q", Box::new(Quit), None, false, None, cx)
+            .expect("the Quit shortcut is valid for the current host");
+        #[cfg(feature = "gpui-fast")]
+        let quit_binding = KeyBinding::new("secondary-q", Quit, None);
         cx.bind_keys([
-            KeyBinding::new("secondary-q", Quit, None),
+            quit_binding,
             KeyBinding::new("escape", DismissPopup, Some("StatusItemPopup")),
         ]);
         cx.on_action(|_: &Quit, cx| cx.quit());

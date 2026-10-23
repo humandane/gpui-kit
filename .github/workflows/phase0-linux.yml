@@ -28,6 +28,8 @@ jobs:
         include:
           - check: kit-library
             command: cargo test --locked --no-default-features --features test-support --lib -p gpui-kit
+          - check: kit-ui
+            command: cargo test --locked --features test-support --test ui -p gpui-kit
           - check: status-example
             command: cargo check --locked -p status_item
     defaults:

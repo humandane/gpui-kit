@@ -8,7 +8,7 @@ use gpui_kit::component::{
 use gpui_kit::test::{TestAppContextExt, TestSupportExt, TestWindowExt};
 use gpui_kit::{
     AnyWindowHandle, App, AppContext, ClipboardItem, Context, Entity, FocusHandle, Focusable as _,
-    InputEvent, KeyDownEvent, KeyUpEvent, Keystroke, LongPressEvent, MouseButton, MouseDownEvent,
+    InputEvent, KeyDownEvent, KeyUpEvent, LongPressEvent, MouseButton, MouseDownEvent,
     MouseMoveEvent, MouseUpEvent, Pixels, Point, TestAppContext, TouchPhase, Window, WindowHandle,
     actions, base::Root, div, point, prelude::*, px, size,
 };
@@ -277,7 +277,7 @@ fn assert_selection_menu(
 }
 
 fn press_context_menu_key(handle: AnyWindowHandle, key: &str, cx: &mut TestAppContext) {
-    let keystroke = Keystroke::parse(key).unwrap();
+    let keystroke = cx.read(|cx| common::parse_keystroke(key, cx));
     cx.update_window(handle, |_, window, cx| {
         window.dispatch_event(
             KeyDownEvent {

@@ -30,11 +30,14 @@ and `Application::on_reopen_request`; their native behavior was developed and
 tested in the separate Zed fork.
 
 The newer upstream source also makes modifier checks and keystroke formatting
-depend on the host OS, restricts context-free keystroke parsing to static text,
+depend on the host OS, restricts context-free keystroke parsing to static text
+with explicit platform modifiers,
 and renames scroll input to `ScrollEvent` / `on_scroll`. Kit's private input
 adapters and test helpers use the new APIs with the current App context; the
 optional Fast branches keep their existing API calls. No application-facing
-Kit helper signature changes.
+Kit helper signature changes. Built-in `secondary-` bindings use
+`KeyBinding::load` with the current App, including the status example's Quit
+binding. `KeyBinding::new` no longer accepts that platform-neutral modifier.
 
 ## Reproduction and validation
 
@@ -45,7 +48,9 @@ RUSTUP_TOOLCHAIN=1.99.0 bun script/stage-menu-bar-snapshot.ts /path/to/zed /new/
 bun script/check-gpui-pin.ts --self-test
 bun script/check-gpui-pin.ts
 cargo +1.99.0 check --locked -p gpui-kit -p status_item
-cargo +1.99.0 test --locked --no-default-features --lib -p gpui-kit
+cargo +1.99.0 test --locked --no-default-features --features test-support --lib -p gpui-kit
+cargo +1.99.0 test --locked --features test-support --test ui -p gpui-kit
+cargo +1.99.0 build --locked -p status_item
 ```
 
 The staging command never publishes. It validates source identity, runs the
@@ -60,8 +65,9 @@ exception. It requires one full revision across the family and rejects branches,
 tags, path overrides, registry substitutions, or a mixture with official
 snapshots. Its self-tests cover accepted and rejected source graphs.
 
-The Linux workflow runs the Kit library tests and status example check on
-Ubuntu 24.04. Native manual checks of the combined graph are deferred. Record
+The Linux workflow runs the Kit library tests, the profile UI smoke test, and
+the status example check on Ubuntu 24.04. Native manual checks of the combined
+graph are deferred. Record
 automated results separately; a successful compile is not proof of native focus,
 accessibility, login-item behavior, or popup dismissal.
 

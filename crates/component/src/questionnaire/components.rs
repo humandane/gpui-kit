@@ -1412,7 +1412,7 @@ questionnaire_action_part!(
 mod tests {
     use super::*;
     use gpui::{
-        AppContext as _, Context, Element as _, Focusable as _, KeyDownEvent, Keystroke, Render,
+        AppContext as _, Context, Element as _, Focusable as _, KeyDownEvent, Render,
         TestAppContext, VisualTestContext, accesskit, px,
     };
 
@@ -1571,7 +1571,8 @@ mod tests {
     }
 
     fn simulate_key(cx: &mut VisualTestContext, key: &str, is_held: bool, simulate_ime: bool) {
-        let mut keystroke = Keystroke::parse(key).unwrap();
+        let mut keystroke =
+            cx.update(|_, cx| crate::platform_input::parse_keystroke(key, cx).unwrap());
         if simulate_ime {
             keystroke = keystroke.with_simulated_ime();
         }
@@ -2091,7 +2092,7 @@ mod tests {
     }
 
     fn press(cx: &mut VisualTestContext, key: &str) {
-        let keystroke = Keystroke::parse(key).unwrap();
+        let keystroke = cx.update(|_, cx| crate::platform_input::parse_keystroke(key, cx).unwrap());
         cx.simulate_event(KeyDownEvent {
             keystroke: keystroke.clone(),
             is_held: false,

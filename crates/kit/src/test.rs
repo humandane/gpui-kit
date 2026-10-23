@@ -13,7 +13,7 @@
 use crate::{
     AnyWindowHandle, App, AppContext, ElementId, InputEvent, KeyDownEvent, KeyUpEvent, Keystroke,
     Modifiers, ModifiersChangedEvent, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent,
-    Pixels, Point, ScrollDelta, ScrollEvent, TestAppContext, Window, point, px,
+    Pixels, Point, ScrollDelta, TestAppContext, Window, point, px,
 };
 use std::time::Duration;
 

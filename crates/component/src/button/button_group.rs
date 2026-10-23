@@ -270,7 +270,7 @@ mod tests {
     use super::*;
     use crate::Selectable as _;
     use gpui::{
-        Axis, Context, KeyDownEvent, KeyUpEvent, Keystroke, Modifiers, Render, TestAppContext,
+        Axis, Context, KeyDownEvent, KeyUpEvent, Modifiers, Render, TestAppContext,
         VisualTestContext, point, px,
     };
     use std::{cell::Cell, rc::Rc};
@@ -329,7 +329,7 @@ mod tests {
     }
 
     fn activate_key(cx: &mut VisualTestContext, key: &str) {
-        let keystroke = Keystroke::parse(key).unwrap();
+        let keystroke = cx.update(|_, cx| crate::platform_input::parse_keystroke(key, cx).unwrap());
         cx.simulate_event(KeyDownEvent {
             keystroke: keystroke.clone(),
             is_held: false,

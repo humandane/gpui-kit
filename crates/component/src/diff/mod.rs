@@ -73,8 +73,8 @@ pub(crate) fn init(cx: &mut App) {
         KeyBinding::new("end", Last, Some("Diff")),
         KeyBinding::new("shift-up", ExtendUp, Some("Diff")),
         KeyBinding::new("shift-down", ExtendDown, Some("Diff")),
-        KeyBinding::new("secondary-c", Copy, Some("Diff")),
-        KeyBinding::new("secondary-a", SelectAll, Some("Diff")),
+        crate::platform_input::key_binding("secondary-c", Copy, Some("Diff"), cx),
+        crate::platform_input::key_binding("secondary-a", SelectAll, Some("Diff"), cx),
     ]);
 }
 

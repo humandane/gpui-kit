@@ -10,7 +10,7 @@ use std::{
 };
 
 use gpui_kit::{
-    App, AppContext, Bounds, Context, Entity, Keystroke, MouseButton, Pixels, Result, SharedString,
+    App, AppContext, Bounds, Context, Entity, MouseButton, Pixels, Result, SharedString,
     Subscription, Task, TestAppContext, Window, WindowHandle,
     component::input::{
         CodeActionProvider, CompletionProvider, Editor, EditorState, Input, InputEvent, InputState,
@@ -269,7 +269,7 @@ impl Fixture {
         // Dispatch native input without the test helper's automatic draw. The
         // provider must finish before rendering the updated completion menu.
         cx.update_window(self.handle.into(), |_, window, cx| {
-            let mut key = Keystroke::parse(text).expect("valid test keystroke");
+            let mut key = common::parse_keystroke(text, cx);
             key.key_char = Some(text.into());
             window.dispatch_keystroke(key, cx);
         })

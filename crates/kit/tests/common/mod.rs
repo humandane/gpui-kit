@@ -40,3 +40,46 @@ pub fn update_content<V: Render, R>(
         content.update(cx, |view, cx| update(view, window, cx))
     })
 }
+
+// Keep test events on the same input API as the selected GPUI backend.
+#[cfg(not(feature = "gpui-fast"))]
+pub use gpui_kit::ScrollEvent;
+#[cfg(feature = "gpui-fast")]
+pub use gpui_kit::ScrollWheelEvent as ScrollEvent;
+
+pub fn parse_keystroke(key: &str, cx: &App) -> gpui_kit::Keystroke {
+    #[cfg(not(feature = "gpui-fast"))]
+    let result = gpui_kit::Keystroke::parse_with_os(key, cx.platform_info().os);
+    #[cfg(feature = "gpui-fast")]
+    let result = {
+        let _ = cx;
+        gpui_kit::Keystroke::parse(key)
+    };
+    result.expect("valid test keystroke")
+}
+
+pub fn secondary_key(cx: &App) -> gpui_kit::Modifiers {
+    #[cfg(not(feature = "gpui-fast"))]
+    {
+        gpui_kit::Modifiers::secondary_key(cx)
+    }
+    #[cfg(feature = "gpui-fast")]
+    {
+        let _ = cx;
+        gpui_kit::Modifiers::secondary_key()
+    }
+}
+
+pub fn on_scroll<E: gpui_kit::InteractiveElement>(
+    element: E,
+    listener: impl Fn(&ScrollEvent, &mut Window, &mut App) + 'static,
+) -> E {
+    #[cfg(not(feature = "gpui-fast"))]
+    {
+        element.on_scroll(listener)
+    }
+    #[cfg(feature = "gpui-fast")]
+    {
+        element.on_scroll_wheel(listener)
+    }
+}

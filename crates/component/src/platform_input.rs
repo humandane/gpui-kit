@@ -56,3 +56,26 @@ pub(crate) fn parse_keystroke(
         gpui::Keystroke::parse(key)
     }
 }
+
+pub(crate) fn key_binding<A: gpui::Action>(
+    keys: &'static str,
+    action: A,
+    context: Option<&str>,
+    cx: &gpui::App,
+) -> gpui::KeyBinding {
+    #[cfg(not(feature = "gpui-fast"))]
+    {
+        let predicate = context.map(|context| {
+            gpui::KeyBindingContextPredicate::parse(context)
+                .expect("built-in keybinding context is valid")
+                .into()
+        });
+        gpui::KeyBinding::load(keys, Box::new(action), predicate, false, None, cx)
+            .expect("built-in keybinding is valid for the current host")
+    }
+    #[cfg(feature = "gpui-fast")]
+    {
+        let _ = cx;
+        gpui::KeyBinding::new(keys, action, context)
+    }
+}

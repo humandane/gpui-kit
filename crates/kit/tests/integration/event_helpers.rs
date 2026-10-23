@@ -46,8 +46,10 @@ impl Render for Surface {
                     .pointer
                     .push(("up", event.modifiers, Some(event.button)))
             })
-            .on_scroll_wheel(move |event, _, _| {
-                scrolled.borrow_mut().scroll_modifiers.push(event.modifiers)
+            .map(|this| {
+                common::on_scroll(this, move |event, _, _| {
+                    scrolled.borrow_mut().scroll_modifiers.push(event.modifiers)
+                })
             })
             .on_key_down(move |event, _, cx| {
                 key_down.borrow_mut().keys.push(("down", event.is_held));

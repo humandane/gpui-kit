@@ -409,8 +409,8 @@ mod tests {
     };
 
     use gpui::{
-        Context, Element as _, KeyDownEvent, KeyUpEvent, Keystroke, Modifiers, Render,
-        TestAppContext, VisualTestContext, accesskit, canvas, point, px,
+        Context, Element as _, KeyDownEvent, KeyUpEvent, Modifiers, Render, TestAppContext,
+        VisualTestContext, accesskit, canvas, point, px,
     };
 
     #[test]
@@ -582,7 +582,7 @@ mod tests {
     }
 
     fn activate_key(cx: &mut VisualTestContext, key: &str) {
-        let keystroke = Keystroke::parse(key).unwrap();
+        let keystroke = cx.update(|_, cx| crate::platform_input::parse_keystroke(key, cx).unwrap());
         cx.simulate_event(KeyDownEvent {
             keystroke: keystroke.clone(),
             is_held: false,

@@ -278,10 +278,12 @@ mod tests {
             assert_eq!(Kbd::format(&Keystroke::parse("cmd--").unwrap()), "⌘-");
             assert_eq!(Kbd::format(&Keystroke::parse("cmd-+").unwrap()), "⌘+");
             assert_eq!(Kbd::format(&Keystroke::parse("cmd-enter").unwrap()), "⌘⏎");
-            assert_eq!(
-                Kbd::format(&Keystroke::parse("secondary-f12").unwrap()),
-                "⌘F12"
-            );
+            #[cfg(not(feature = "gpui-fast"))]
+            let secondary_f12 =
+                Keystroke::parse_with_os("secondary-f12", gpui::OperatingSystem::Mac).unwrap();
+            #[cfg(feature = "gpui-fast")]
+            let secondary_f12 = Keystroke::parse("secondary-f12").unwrap();
+            assert_eq!(Kbd::format(&secondary_f12), "⌘F12");
             assert_eq!(
                 Kbd::format(&Keystroke::parse("shift-pagedown").unwrap()),
                 "⇧Page Down"
