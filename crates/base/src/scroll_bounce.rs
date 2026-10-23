@@ -1049,7 +1049,7 @@ mod tests {
         cx.update(|window, cx| {
             for (delta, phase) in [(-30., TouchPhase::Started), (0., TouchPhase::Ended)] {
                 window.dispatch_event(
-                    gpui::PlatformInput::ScrollWheel(crate::ScrollEvent {
+                    crate::platform_input::scroll_input(crate::ScrollEvent {
                         position: point(px(100.), px(100.)),
                         delta: ScrollDelta::Pixels(point(px(0.), px(delta))),
                         touch_phase: phase,
@@ -1080,7 +1080,7 @@ mod tests {
         cx.update(|window, cx| {
             for (delta, phase) in [(-30., TouchPhase::Started), (5., TouchPhase::Moved)] {
                 window.dispatch_event(
-                    gpui::PlatformInput::ScrollWheel(crate::ScrollEvent {
+                    crate::platform_input::scroll_input(crate::ScrollEvent {
                         position: point(px(100.), px(100.)),
                         delta: ScrollDelta::Pixels(point(px(0.), px(delta))),
                         touch_phase: phase,
@@ -1369,7 +1369,7 @@ mod tests {
         cx.update(|window, cx| {
             for delta in [point(px(30.), px(-20.)), point(px(0.), px(-20.))] {
                 window.dispatch_event(
-                    gpui::PlatformInput::ScrollWheel(crate::ScrollEvent {
+                    crate::platform_input::scroll_input(crate::ScrollEvent {
                         position: point(px(100.), px(100.)),
                         delta: ScrollDelta::Pixels(delta),
                         touch_phase: TouchPhase::Moved,

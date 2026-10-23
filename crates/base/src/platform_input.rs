@@ -29,3 +29,15 @@ pub(crate) fn on_scroll<E: gpui::InteractiveElement>(
         element.on_scroll_wheel(listener)
     }
 }
+
+#[cfg(test)]
+pub(crate) fn scroll_input(event: ScrollEvent) -> gpui::PlatformInput {
+    #[cfg(not(feature = "gpui-fast"))]
+    {
+        gpui::PlatformInput::Scroll(event)
+    }
+    #[cfg(feature = "gpui-fast")]
+    {
+        gpui::PlatformInput::ScrollWheel(event)
+    }
+}

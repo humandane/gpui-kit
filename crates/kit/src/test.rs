@@ -11,9 +11,9 @@
 //! [`ElementSnapshot`] is immutable. Call [`TestWindowExt::render_frame`] after
 //! external changes, or use [`TestAppContextExt::wait_for`] for asynchronous UI.
 use crate::{
-    crate::ScrollEvent, AnyWindowHandle, App, AppContext, ElementId, InputEvent, KeyDownEvent,
-    KeyUpEvent, Keystroke, Modifiers, ModifiersChangedEvent, MouseButton, MouseDownEvent,
-    MouseMoveEvent, MouseUpEvent, Pixels, Point, ScrollDelta, TestAppContext, Window, point, px,
+    AnyWindowHandle, App, AppContext, ElementId, InputEvent, KeyDownEvent, KeyUpEvent, Keystroke,
+    Modifiers, ModifiersChangedEvent, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent,
+    Pixels, Point, ScrollDelta, ScrollEvent, TestAppContext, Window, point, px,
 };
 use std::time::Duration;
 

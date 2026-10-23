@@ -1037,7 +1037,7 @@ mod tests {
         cx.update(|window, cx| {
             let mut dispatch = |delta_x: f32| {
                 window.dispatch_event(
-                    gpui::PlatformInput::ScrollWheel(crate::ScrollEvent {
+                    crate::platform_input::scroll_input(crate::ScrollEvent {
                         position: point(px(10.), px(10.)),
                         delta: ScrollDelta::Pixels(point(px(delta_x), px(0.))),
                         ..Default::default()
